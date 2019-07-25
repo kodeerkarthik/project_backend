@@ -23,9 +23,16 @@ var UserSchema = new Schema({
     required: 'Please Enter mobile number'
   }, 
   Created_date: {
-    type: Date,
-    default: Date.now
+    type: String,
+    default: 'abc'
   }
 });
-
 module.exports = mongoose.model('UserInfo', UserSchema);
+
+var detailSchema =new Schema({
+  doctors:{ type:String, default:'25'},
+  patients:{ type:String, default:'77'},
+  wards:{ type:String, default:'80'},
+  staff:{ type:String, default:'88'}
+})
+module.exports = mongoose.model('details', detailSchema);

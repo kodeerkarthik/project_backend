@@ -1,19 +1,18 @@
 module.exports = function(app) {
 	var userData = require('../controller/UserController');
-
+	var hospitaldet=require('../controller/UserController');
 // Signup 
  app.route('/signup')
- .post(userData.userSignup);
-
+ .post(userData.userSignup)
 
 
  //user detail
- app.route('/getUser/:emailId')
- .get(userData.getUser);
+//  app.route('/getUser/:emailId')
+//  .get(userData.getUser);
 
  //update 
- app.route('/updateUser')
- .put(userData.updateUser);
+//  app.route('/updateUser')
+//  .put(userData.updateUser);
 
 // 
 //  app.route('/deleteUser/:userId')
@@ -23,4 +22,8 @@ module.exports = function(app) {
  app.route('/signin')
  .post(userData.userSignin);
  
+ app.route('/details')
+	.get(hospitaldet.hospitalDetails)
+	// .posnt(hospitaldet.setdetails)
+
 };

@@ -1,5 +1,6 @@
 var mongoose = require('mongoose'),
 UserData = mongoose.model('UserInfo');
+hospitaldet=mongoose.model('details')
 var bcrypt = require('bcryptjs');
 var fs = require("fs");
 
@@ -7,13 +8,38 @@ var fs = require("fs");
 exports.getAllUsers = function(req, res) {
  
   console.log(req.body);
-  UserData.find({}, function(err, data) {
+  UserData.find({}, function(err, details) {
     if (err)
       res.send(err);
-    res.json(data);
-    console.log(data);
+    res.json(details);
+    // console.log(data);
   });
 };
+
+// exports.setdetails=function(req,res){
+//   hospitaldet.save(function(err, data){
+//   if(err)
+//   res.send(err.message);
+// res.json(data);
+// // res.json("user succesfully created");
+// })
+// }
+
+exports.hospitalDetails=function(req,res){
+  var detail= new hospitaldet(req.body);
+  detail.save(function(err, data){
+    if(err)
+    res.send(err.message);
+    res.json(data);
+  // res.json("user succesfully created");
+  })
+  hospitaldet.find( function(err,data){
+    if (err)
+      res.send(err);
+      res.send(data);
+      console.log(data);
+  })
+}
 
 
 exports.getUser = function(req, res){
@@ -30,6 +56,7 @@ exports.getUser = function(req, res){
 
 
 exports.userSignup = function(req, res){
+  console.log('hi')
   const reg_email=/^[a-zA-Z0-9]+@+[a-zA-Z0-9]+.+[A-z]/;
   const reg_mob=/^[0]?[789]\d{9}$/;
   const reg_pwd=/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/;
@@ -40,7 +67,7 @@ exports.userSignup = function(req, res){
     res.send('Mobile number is invalid');
   }
   if(reg_email.test(req.body.email)){
-    console.log(req.body);
+    console.log("hii");
     UserData.find({email: req.body.email},function(err, data){
       if(data != null && data != ''){
         res.send('User already exists');
@@ -55,7 +82,6 @@ exports.userSignup = function(req, res){
               if(err)
                 res.send(err.message);
               res.json(data);
-              res.json("user succesfully created");
             })
           })
         })
@@ -88,8 +114,8 @@ exports.updateUser = function(req, res) {
       if (err)
         res.send(err);
       res.json(data);
-    });
-};
+    })
+}
 
 
 // exports.deleteUser = function(req, res){
