@@ -4,6 +4,10 @@ hospitaldet=mongoose.model('details')
 var bcrypt = require('bcryptjs');
 var fs = require("fs");
 
+
+
+
+
 //get all users
 exports.getAllUsers = function(req, res) {
  
@@ -26,13 +30,13 @@ exports.getAllUsers = function(req, res) {
 // }
 
 exports.hospitalDetails=function(req,res){
-  var detail= new hospitaldet(req.body);
-  detail.save(function(err, data){
-    if(err)
-    res.send(err.message);
-    res.json(data);
+  // var detail= new hospitaldet(req.body);
+  // detail.save(function(err, data){
+  //   if(err)
+  //   res.send(err.message);
+  //   res.json(data);
   // res.json("user succesfully created");
-  })
+  // })
   hospitaldet.find( function(err,data){
     if (err)
       res.send(err);
