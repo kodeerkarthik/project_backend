@@ -1,6 +1,8 @@
 var mongoose = require('mongoose'),
 UserData = mongoose.model('UserInfo');
 hospitaldet=mongoose.model('details')
+timer=mongoose.model('timercount')
+appoint=mongoose.model('appointment')
 var bcrypt = require('bcryptjs');
 var fs = require("fs");
 
@@ -45,6 +47,22 @@ exports.hospitalDetails=function(req,res){
   })
 }
 
+exports.counting=function(req,res){
+  var detail= new timer(req.body);
+  detail.save(function(err, data){
+    if(err)
+    res.send(err.message);
+    res.json(data);
+  res.json("user succesfully created");
+  })
+
+  timer.find( function(err,data){
+    if (err)
+      res.send(err);
+      res.send(data);
+      console.log(data);
+  })
+}
 
 exports.getUser = function(req, res){
 
@@ -135,3 +153,28 @@ exports.updateUser = function(req, res) {
 // // Delete users
 // app.route('/getAllUsers')
 // .get(userData.getAllUsers);
+
+
+exports.getAppointment = function(req,res){ 
+  const reg_email=/^[a-zA-Z0-9]+@+[a-zA-Z0-9]+.+[A-z]/;
+  const reg_pwd=/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/;
+  if(!reg_pwd.test(req.body.password)){
+    res.send('password is invalid');
+  }
+  if(reg_email.test(req.body.email)){
+    var Appoint = new appoint(req.body);
+    bcrypt.genSalt(10, function(err, salt){
+      bcrypt.hash(Appoint.password, salt, function(err, hash) {
+        Appoint.password = hash;
+
+    Appoint.save(function(err, data){
+      if(err)
+        res.send(err.message);
+      res.json(data);
+    })
+  })})
+  }
+  else {
+    res.send('Email is invalid');
+  }
+};
