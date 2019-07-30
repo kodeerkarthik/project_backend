@@ -22,23 +22,8 @@ exports.getAllUsers = function(req, res) {
   });
 };
 
-// exports.setdetails=function(req,res){
-//   hospitaldet.save(function(err, data){
-//   if(err)
-//   res.send(err.message);
-// res.json(data);
-// // res.json("user succesfully created");
-// })
-// }
-
 exports.hospitalDetails=function(req,res){
-  // var detail= new hospitaldet(req.body);
-  // detail.save(function(err, data){
-  //   if(err)
-  //   res.send(err.message);
-  //   res.json(data);
-  // res.json("user succesfully created");
-  // })
+  // var detail= new hospitaldet(req.body);   detail.save(function(err, data){  if(err)  res.send(err.message);  res.json(data);  res.json("user succesfully created"); })
   hospitaldet.find( function(err,data){
     if (err)
       res.send(err);
@@ -49,14 +34,7 @@ exports.hospitalDetails=function(req,res){
 
 
 exports.counting=function(req,res){
-  // var detail= new timer(req.body);
-  // detail.save(function(err, data){
-  //   if(err)
-  //   res.send(err.message);
-  //   res.json(data);
-  
-  // })
-
+  // var detail= new timer(req.body);    detail.save(function(err, data){   if(err)    res.send(err.message);    res.json(data); })
   timer.find( function(err,data){
     if (err)
       res.send(err);
@@ -98,16 +76,16 @@ exports.userSignup = function(req, res){
       else
       {
         var userData = new UserData(req.body);
-        bcrypt.genSalt(10, function(err, salt){
-          bcrypt.hash(userData.password, salt, function(err, hash) {
-            userData.password = hash;
+        // bcrypt.genSalt(10, function(err, salt){
+          // bcrypt.hash(userData.password, salt, function(err, hash) {
+            // userData.password = hash;
             userData.save(function(err, data){
               if(err)
                 res.send(err.message);
               res.json(data);
             })
-          })
-        })
+          // })
+        // })
       }
     });
   }
@@ -120,12 +98,12 @@ exports.userSignin = function(req,res){
   console.log('hii')
   UserData.find({email: req.body.email}, function(err, data){
     if(data != null && data != ''){
-      bcrypt.compare(req.body.password, data[0].password, function( err, isMatch) {
-        if(isMatch == true){
+      // bcrypt.compare(req.body.password, data[0].password, function( err, isMatch) {
+      //   if(isMatch == true){
           // res.json(data);
           res.send("User succesfully signIn");
-        }
-      });
+        // }
+      // });
     } 
     else{
       // res.send(err);
@@ -133,23 +111,6 @@ exports.userSignin = function(req,res){
     }
   });
 };
-
-// exports.signin = function (req, res) {
-//   User.find({ email: req.body.email }, function (err, data) {
-//   if (data != null && data != '') {
-//   bcrypt.compare(req.body.password, data[0].password, function (err, isMatch) {
-//   if (isMatch == true) {
-//   res.send("User succesfully signed in");
-//   }
-//   });
-//   }
-//   else {
-//   res.send("User does not exists");
-//   }
-//   });
-//   };
-
-
 
 exports.updateUser = function(req, res) {
   UserData.findOneAndUpdate({_id: req.body.userId}, 
@@ -159,22 +120,6 @@ exports.updateUser = function(req, res) {
       res.json(data);
     })
 }
-
-
-// exports.deleteUser = function(req, res){
-//   UserData.remove({
-//     _id: req.params.userId
-//   }, function(err, data) {
-//     if (err)
-//       res.send(err);
-//     res.json({ message: 'user successfully deleted' });
-//   })
-// };
-
-// // Delete users
-// app.route('/getAllUsers')
-// .get(userData.getAllUsers);
-
 
 exports.getAppointment = function(req,res){ 
   const reg_email=/^[a-zA-Z0-9]+@+[a-zA-Z0-9]+.+[A-z]/;

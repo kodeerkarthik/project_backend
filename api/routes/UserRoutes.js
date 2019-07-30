@@ -8,26 +8,11 @@ module.exports = function(app) {
  .post(userData.userSignup)
  .get(userData.getAllUsers)
 
-// app.route('/signup')
- //user detail
-//  app.route('/getUser/:emailId')
-//  .get(userData.getUser);
-
- //update 
-//  app.route('/updateUser')
-//  .put(userData.updateUser);
-
-// 
-//  app.route('/deleteUser/:userId')
-//  .delete(userData.deleteUser);
-
- //Sign
  app.route('/signin')
  .post(userData.userSignin);
  
  app.route('/details')
 	.get(hospitaldet.hospitalDetails)
-	// .posnt(hospitaldet.setdetails)
 
 app.route('/count')
 	.get(timer.counting)
