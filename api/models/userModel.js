@@ -38,10 +38,10 @@ var detailSchema =new Schema({
 module.exports = mongoose.model('details', detailSchema);
 
 var countSchema =new Schema({
-  days:{ type:String, default:365},
-  patients:{ type:String, default:564},
-  doctors:{type:String, default:164},
-  lab:{ type:String, default:765}
+  days:{ type:String, default:'365'},
+  patients:{ type:String, default:'564'},
+  doctors:{type:String, default:'164'},
+  lab:{ type:String, default:'765'}
 })
 module.exports = mongoose.model('timercount', countSchema);
 

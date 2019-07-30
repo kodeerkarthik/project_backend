@@ -6,8 +6,9 @@ module.exports = function(app) {
 // Signup 
  app.route('/signup')
  .post(userData.userSignup)
+ .get(userData.getAllUsers)
 
-
+// app.route('/signup')
  //user detail
 //  app.route('/getUser/:emailId')
 //  .get(userData.getUser);
@@ -28,10 +29,10 @@ module.exports = function(app) {
 	.get(hospitaldet.hospitalDetails)
 	// .posnt(hospitaldet.setdetails)
 
-	app.route('/count')
+app.route('/count')
 	.get(timer.counting)
 
-	app.route('/appointment')	
+app.route('/appointment')	
 	.post(appoint.getAppointment)
 };
 

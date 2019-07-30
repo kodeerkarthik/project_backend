@@ -47,14 +47,15 @@ exports.hospitalDetails=function(req,res){
   })
 }
 
+
 exports.counting=function(req,res){
-  var detail= new timer(req.body);
-  detail.save(function(err, data){
-    if(err)
-    res.send(err.message);
-    res.json(data);
-  res.json("user succesfully created");
-  })
+  // var detail= new timer(req.body);
+  // detail.save(function(err, data){
+  //   if(err)
+  //   res.send(err.message);
+  //   res.json(data);
+  
+  // })
 
   timer.find( function(err,data){
     if (err)
@@ -116,19 +117,39 @@ exports.userSignup = function(req, res){
 };
 
 exports.userSignin = function(req,res){
+  console.log('hii')
   UserData.find({email: req.body.email}, function(err, data){
     if(data != null && data != ''){
       bcrypt.compare(req.body.password, data[0].password, function( err, isMatch) {
         if(isMatch == true){
+          // res.json(data);
           res.send("User succesfully signIn");
         }
       });
     } 
     else{
+      // res.send(err);
       res.send("User does not exists");
     }
   });
 };
+
+// exports.signin = function (req, res) {
+//   User.find({ email: req.body.email }, function (err, data) {
+//   if (data != null && data != '') {
+//   bcrypt.compare(req.body.password, data[0].password, function (err, isMatch) {
+//   if (isMatch == true) {
+//   res.send("User succesfully signed in");
+//   }
+//   });
+//   }
+//   else {
+//   res.send("User does not exists");
+//   }
+//   });
+//   };
+
+
 
 exports.updateUser = function(req, res) {
   UserData.findOneAndUpdate({_id: req.body.userId}, 
