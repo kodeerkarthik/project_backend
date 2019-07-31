@@ -57,7 +57,7 @@ exports.getUser = function(req, res){
 
 
 exports.userSignup = function(req, res){
-  console.log('hi')
+  // console.log('hi')
   const reg_email=/^[a-zA-Z0-9]+@+[a-zA-Z0-9]+.+[A-z]/;
   const reg_mob=/^[0]?[789]\d{9}$/;
   const reg_pwd=/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/;
@@ -68,7 +68,7 @@ exports.userSignup = function(req, res){
     res.send('Mobile number is invalid');
   }
   if(reg_email.test(req.body.email)){
-    console.log("hii");
+    // console.log("hii");
     UserData.find({email: req.body.email},function(err, data){
       if(data != null && data != ''){
         res.send('User already exists');
@@ -95,7 +95,7 @@ exports.userSignup = function(req, res){
 };
 
 exports.userSignin = function(req,res){
-  console.log('hii')
+  console.log('signin')
   UserData.find({email: req.body.email}, function(err, data){
     if(data != null && data != ''){
       // bcrypt.compare(req.body.password, data[0].password, function( err, isMatch) {
