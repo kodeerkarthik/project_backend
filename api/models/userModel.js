@@ -60,3 +60,20 @@ var appointmentSchema =new Schema({
   }
 })
 module.exports - mongoose.model('appointment',appointmentSchema)
+
+var selectdoctorSchema =new Schema({
+  department: {
+    type:String
+  },
+  doctor: {
+    type:String
+  },
+  patient:{
+    type:String
+  },
+  date:{
+    type:Date,
+    default:Date.now
+  }
+})
+module.exports - mongoose.model('selectdoctor',selectdoctorSchema)

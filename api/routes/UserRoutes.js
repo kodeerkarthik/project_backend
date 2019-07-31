@@ -3,6 +3,7 @@ module.exports = function(app) {
 	var hospitaldet=require('../controller/UserController');
 	var timer=require('../controller/UserController');
 	var appoint=require('../controller/UserController');
+	var selectdoctor = require('../controller/UserController');
 // Signup 
  app.route('/signup')
  .post(userData.userSignup)
@@ -19,5 +20,10 @@ app.route('/count')
 
 app.route('/appointment')	
 	.post(appoint.getAppointment)
+
+app.route('/selectdoctor')	
+	.post(selectdoctor.postSelectDoctor)
+
 };
+
 

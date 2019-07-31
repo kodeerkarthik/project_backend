@@ -3,11 +3,10 @@ UserData = mongoose.model('UserInfo');
 hospitaldet=mongoose.model('details')
 timer=mongoose.model('timercount')
 appoint=mongoose.model('appointment')
+selectdoctor=mongoose.model('selectdoctor')
 var bcrypt = require('bcryptjs');
-var fs = require("fs");
 
-
-
+var nodemailer = require ('nodemailer');
 
 
 //get all users
@@ -122,6 +121,7 @@ exports.updateUser = function(req, res) {
 }
 
 exports.getAppointment = function(req,res){ 
+
   const reg_email=/^[a-zA-Z0-9]+@+[a-zA-Z0-9]+.+[A-z]/;
   const reg_pwd=/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/;
   if(!reg_pwd.test(req.body.password)){
@@ -137,6 +137,38 @@ exports.getAppointment = function(req,res){
       if(err)
         res.send(err.message);
       res.json(data);
+
+
+      var transporter = nodemailer.createTransport({
+        host: 'smtp.gmail.com',
+        port: 587,
+        secure: false,
+        requireTLS: true,
+        // service: 'gmail',
+        auth: {
+          user: 'kkrishnegowdaostb1@gmail.com',
+          pass: '23Dec1995'
+        }
+      });
+      var mailOptions = {
+        
+        from: 'kkrishnegowdaostb1@gmail.com',
+        to: data.email,
+        // to: 'jvijayakumarostb1@gmail.com',
+        subject: 'Acknowledge for getting appointment',
+        text: `Hii your appointment with HEALTH + doctor is aloocated `
+        // html: '<h1>Hi Smartherd</h1><p>Your Messsage</p>'        
+      };
+      console.log(data.email)
+      transporter.sendMail(mailOptions, (error, info)=>{
+        if (error) {
+          return console.log(error.message);
+        } else {
+          console.log('Email sent: ' + info.response);
+        }
+      });
+
+
     })
   })})
   }
@@ -144,3 +176,14 @@ exports.getAppointment = function(req,res){
     res.send('Email is invalid');
   }
 };
+
+exports.postSelectDoctor = function(req,res){ 
+  console.log('selectdoctor')
+  var Selectdoctor = new selectdoctor(req.body);
+  Selectdoctor.save(function(err, data){
+    if(err)
+      res.send(err.message);
+    res.json(data);
+    console.log(data)
+  })
+}
