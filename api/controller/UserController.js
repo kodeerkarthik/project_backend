@@ -187,3 +187,14 @@ exports.postSelectDoctor = function(req,res){
     console.log(data)
   })
 }
+exports.getSelectDoctor = function(req,res){ 
+  console.log('getselectdoctor')
+  selectdoctor.find(function(err,data){
+    if (err)
+      res.send(err);
+      res.send(data);
+      // console.log(data);
+  })
+}
+
+

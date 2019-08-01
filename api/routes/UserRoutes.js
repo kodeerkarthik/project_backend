@@ -23,7 +23,7 @@ app.route('/appointment')
 
 app.route('/selectdoctor')	
 	.post(selectdoctor.postSelectDoctor)
-
+	.get(selectdoctor.getSelectDoctor)
 };
 
 
