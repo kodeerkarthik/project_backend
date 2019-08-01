@@ -156,7 +156,7 @@ exports.getAppointment = function(req,res){
         to: data.email,
         // to: 'jvijayakumarostb1@gmail.com',
         subject: 'Acknowledge for getting appointment',
-        text: `Hii your appointment with HEALTH + doctor is aloocated `
+        text: `Hii your appointment with HEALTH+ is confirmed `
         // html: '<h1>Hi Smartherd</h1><p>Your Messsage</p>'        
       };
       console.log(data.email)
