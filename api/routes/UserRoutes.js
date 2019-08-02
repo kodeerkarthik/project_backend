@@ -4,12 +4,13 @@ module.exports = function(app) {
 	var timer=require('../controller/UserController');
 	var appoint=require('../controller/UserController');
 	var selectdoctor = require('../controller/UserController');
+	var isAuth = require('../Middleware/isAuth')
 // Signup 
  app.route('/signup')
  .post(userData.userSignup)
  .get(userData.getAllUsers)
 
- app.route('/signin')
+ app.route('/signin',isAuth)
  .post(userData.userSignin);
  
  app.route('/details')

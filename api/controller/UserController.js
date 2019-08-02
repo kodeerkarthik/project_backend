@@ -5,7 +5,7 @@ timer=mongoose.model('timercount')
 appoint=mongoose.model('appointment')
 selectdoctor=mongoose.model('selectdoctor')
 var bcrypt = require('bcryptjs');
-
+var jwt=require('jsonwebtoken');
 var nodemailer = require ('nodemailer');
 
 
@@ -100,7 +100,13 @@ exports.userSignin = function(req,res){
       // bcrypt.compare(req.body.password, data[0].password, function( err, isMatch) {
       //   if(isMatch == true){
           // res.json(data);
+        UserData.find({password: req.body.password}, function(err, data){
+          if(data != null && data != ''){
           res.send("User succesfully signIn");
+          }
+          else
+          res.send("password incorrect");
+        })
         // }
       // });
     } 
@@ -110,6 +116,47 @@ exports.userSignin = function(req,res){
     }
   });
 };
+
+// exports.userSignin = (req,res,next) =>{
+//   const email = req.body.email;
+//   const password = req.body.password;
+//   let loadedUser;
+//   UserData.findOne({email: email})
+//   .then(user =>{
+//   if(!user){
+//   const error = new Error('A user with this email could not be found.');
+//   error.statusCode = 401;
+//   throw error;
+//   }
+//   loadedUser = user;
+//   return bcrypt.compare(password,user.password);
+//   })
+//   .then(isEqual =>{
+//   if(!isEqual){
+//   const error = new Error('wrong password.');
+//   error.statusCode = 401;
+//   throw error;
+//   }
+//   const token = jwt.sign(
+//   {
+//   email: loadedUser.email,
+//   userId:loadedUser._id.toString()
+//   },
+//   'secret',
+  
+//   )
+//   res.status(200).json({token: token, userId: loadedUser._id.toString()})
+//   })
+  
+//   .catch(err => {
+//   if (!err.statusCode) {
+//   err.statusCode = 500;
+//   }
+//   next(err);
+  
+//   });
+  
+//   }
 
 exports.updateUser = function(req, res) {
   UserData.findOneAndUpdate({_id: req.body.userId}, 
@@ -196,5 +243,3 @@ exports.getSelectDoctor = function(req,res){
       // console.log(data);
   })
 }
-
-
