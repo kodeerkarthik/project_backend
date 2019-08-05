@@ -52,8 +52,9 @@ var appointmentSchema =new Schema({
   email: {
     type:String
   },
-  password:{
-    type:String
+  date:{
+    type:Date,
+    default:Date.now
   },
   message:{
     type:String
@@ -70,10 +71,6 @@ var selectdoctorSchema =new Schema({
   },
   patient:{
     type:String
-  },
-  date:{
-    type:Date,
-    default:Date.now
   }
 })
 module.exports - mongoose.model('selectdoctor',selectdoctorSchema)

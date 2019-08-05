@@ -123,40 +123,34 @@ exports.userSignin = (req,res,next) =>{
   let loadedUser;
   UserData.findOne({email: email})
   .then(user =>{
-  if(!user){
-  const error = new Error('A user with this email could not be found.');
-  error.statusCode = 401;
-  throw error;
-  }
-  loadedUser = user;
-  return bcrypt.compare(password,user.password);
+    if(!user){
+      const error = new Error('A user with this email could not be found.');
+      error.statusCode = 401;
+      throw error;
+    }
+    loadedUser = user;
+    return bcrypt.compare(password,user.password);
   })
   .then(isEqual =>{
-  if(!isEqual){
-  const error = new Error('wrong password.');
-  error.statusCode = 401;
-  throw error;
-  }
-  const token = jwt.sign(
-  {
-  email: loadedUser.email,
-  userId:loadedUser._id.toString()
-  },
-  'secret',
-  
-  )
-  res.status(200).json({token: token, userId: loadedUser._id.toString()})
+    if(!isEqual){
+      const error = new Error('wrong password.');
+      error.statusCode = 401;
+      throw error;
+    }
+    const token = jwt.sign(
+    {
+      email: loadedUser.email,
+      userId:loadedUser._id.toString()
+    },'secret',)
+    res.status(200).json({token: token, userId: loadedUser._id.toString()})
   })
-  
   .catch(err => {
-  if (!err.statusCode) {
-  err.statusCode = 500;
-  }
-  next(err);
-  
-  });
-  
-  }
+    if (!err.statusCode) {
+      err.statusCode = 500;
+    }
+    next(err);
+  }); 
+}
 
 exports.updateUser = function(req, res) {
   UserData.findOneAndUpdate({_id: req.body.userId}, 
@@ -170,22 +164,14 @@ exports.updateUser = function(req, res) {
 exports.getAppointment = function(req,res){ 
 
   const reg_email=/^[a-zA-Z0-9]+@+[a-zA-Z0-9]+.+[A-z]/;
-  const reg_pwd=/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/;
-  if(!reg_pwd.test(req.body.password)){
-    res.send('password is invalid');
-  }
+  
   if(reg_email.test(req.body.email)){
     var Appoint = new appoint(req.body);
-    bcrypt.genSalt(10, function(err, salt){
-      bcrypt.hash(Appoint.password, salt, function(err, hash) {
-        Appoint.password = hash;
 
     Appoint.save(function(err, data){
       if(err)
         res.send(err.message);
       res.json(data);
-
-
       var transporter = nodemailer.createTransport({
         host: 'smtp.gmail.com',
         port: 587,
@@ -198,11 +184,11 @@ exports.getAppointment = function(req,res){
         }
       });
       var mailOptions = {
-        
+       
         from: 'kkrishnegowdaostb1@gmail.com',
         to: data.email,
         subject: 'Acknowledge for getting appointment',
-        text: `Hii your appointment with HEALTH+ is confirmed `
+        text: `Hii your appointment with HEALTH+ is confirmed at `+data.date,
         // html: '<h1>Hi Smartherd</h1><p>Your Messsage</p>'        
       };
       console.log(data.email)
@@ -213,10 +199,7 @@ exports.getAppointment = function(req,res){
           console.log('Email sent: ' + info.response);
         }
       });
-
-
     })
-  })})
   }
   else {
     res.send('Email is invalid');
