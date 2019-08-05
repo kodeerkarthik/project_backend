@@ -7,11 +7,11 @@ module.exports = function(app) {
 	var isAuth = require('../Middleware/isAuth')
 // Signup 
  app.route('/signup')
- .post(userData.userSignup)
- .get(userData.getAllUsers)
+	.post(userData.userSignup)
+	.get(userData.getAllUsers)
 
  app.route('/signin',isAuth)
- .post(userData.userSignin);
+ 	.post(userData.userSignin);
  
  app.route('/details')
 	.get(hospitaldet.hospitalDetails)
@@ -26,5 +26,6 @@ app.route('/selectdoctor')
 	.post(selectdoctor.postSelectDoctor)
 	.get(selectdoctor.getSelectDoctor)
 };
+
 
 
