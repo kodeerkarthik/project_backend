@@ -11,7 +11,8 @@ module.exports = function(app) {
 	.get(userData.getAllUsers)
 
  app.route('/signin',isAuth)
- 	.post(userData.userSignin);
+	 .post(userData.userSignin)
+	 .get(userData.getAllSignin)
  
  app.route('/details')
 	.get(hospitaldet.hospitalDetails)

@@ -7,6 +7,7 @@ selectdoctor=mongoose.model('selectdoctor')
 var bcrypt = require('bcryptjs');
 var jwt=require('jsonwebtoken');
 var nodemailer = require ('nodemailer');
+var isAuth=require('../Middleware/isAuth');
 
 
 //get all users
@@ -56,7 +57,7 @@ exports.getUser = function(req, res){
 
 
 exports.userSignup = function(req, res){
-  // console.log('hi')
+  console.log('hi')
   const reg_email=/^[a-zA-Z0-9]+@+[a-zA-Z0-9]+.+[A-z]/;
   const reg_mob=/^[0]?[789]\d{9}$/;
   const reg_pwd=/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/;
@@ -143,6 +144,10 @@ exports.userSignin = (req,res,next) =>{
       userId:loadedUser._id.toString()
     },'secret',)
     res.status(200).json({token: token, userId: loadedUser._id.toString()})
+    res.json({
+      success: true,
+      token: token
+  });
   })
   .catch(err => {
     if (!err.statusCode) {
@@ -151,6 +156,14 @@ exports.userSignin = (req,res,next) =>{
     next(err);
   }); 
 }
+
+exports.getAllSignin = (isAuth,function(req, res) {
+  UserData.find({userId:req.decodedToken}, function(err, data) {
+    if (err)
+      res.send(err);
+    res.json(data); 
+  });
+});
 
 exports.updateUser = function(req, res) {
   UserData.findOneAndUpdate({_id: req.body.userId}, 
@@ -191,7 +204,7 @@ exports.getAppointment = function(req,res){
         text: `Hii your appointment with HEALTH+ is confirmed at `+data.date,
         // html: '<h1>Hi Smartherd</h1><p>Your Messsage</p>'        
       };
-      console.log(data.email)
+      console.log(data)
       transporter.sendMail(mailOptions, (error, info)=>{
         if (error) {
           return console.log(error.message);
