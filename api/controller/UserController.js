@@ -34,13 +34,24 @@ exports.hospitalDetails=function(req,res){
 
 
 exports.counting=function(req,res){
+  debugger;
+  try {
+    var decoded = jwt.verify(req.headers.authorization, 'secret');
+    timer.find()
+    .then((response) => {
+      return res.status(200).json({count: response})
+    })
+    .catch((error) => {
+      return res.status(404).json({error})
+    })
+  } catch(error){
+    return res.status(401).json({error: "User not authorized"})
+  }
+  // decoded.email = 
   // var detail= new timer(req.body);    detail.save(function(err, data){   if(err)    res.send(err.message);    res.json(data); })
-  timer.find( function(err,data){
-    if (err)
-      res.send(err);
-      res.send(data);
-      console.log(data);
-  })
+
+
+  
 }
 
 exports.getUser = function(req, res){
@@ -130,25 +141,26 @@ exports.userSignin = (req,res,next) =>{
       throw error;
     }
     loadedUser = user;
-    return bcrypt.compare(password,user.password);
-  })
-  .then(isEqual =>{
-    if(!isEqual){
-      const error = new Error('wrong password.');
-      error.statusCode = 401;
-      throw error;
-    }
     const token = jwt.sign(
-    {
-      email: loadedUser.email,
-      userId:loadedUser._id.toString()
-    },'secret',)
-    res.status(200).json({token: token, userId: loadedUser._id.toString()})
-    res.json({
-      success: true,
-      token: token
-  });
+      {
+        email: loadedUser.email,
+        userId:loadedUser._id.toString()
+      },'secret')
+      return res.status(200).json({token: token, userId: loadedUser._id.toString(), email: loadedUser.email})
+      // res.json({
+        // success: true,
+        // token: token
+    // });
+    // })
+    // return bcrypt.compare(password,user.password);
   })
+  // .then(isEqual =>{
+    // if(!isEqual){
+    //   const error = new Error('wrong password.');
+    //   error.statusCode = 401;
+    //   throw error;
+    // }
+
   .catch(err => {
     if (!err.statusCode) {
       err.statusCode = 500;
