@@ -145,7 +145,7 @@ exports.userSignin = (req,res,next) =>{
       {
         email: loadedUser.email,
         userId:loadedUser._id.toString()
-      },'secret')
+      },'secret',{expiresIn:'10s'})
       return res.status(200).json({token: token, userId: loadedUser._id.toString(), email: loadedUser.email})
       // res.json({
         // success: true,
@@ -250,3 +250,19 @@ exports.getSelectDoctor = function(req,res){
       // console.log(data);
   })
 }
+exports.deleteDoctor = (req,res)=>{ 
+  selectdoctor.remove({_id: req.params.id },(error, data) => {
+    if (error) { res.json(error) }
+    res.json(data)
+  })
+}
+
+exports.updateDoctor=(req, res)=>{
+  selectdoctor.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true }, (error, data) => {
+      if (error) { res.json(error) }
+      res.json(data)
+  })
+}
+
+
+

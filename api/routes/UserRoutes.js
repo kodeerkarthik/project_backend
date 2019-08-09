@@ -26,7 +26,16 @@ app.route('/appointment')
 app.route('/selectdoctor')	
 	.post(selectdoctor.postSelectDoctor)
 	.get(selectdoctor.getSelectDoctor)
+
+app.route('/selectdoctor/:id')
+	.delete(selectdoctor.deleteDoctor)
+
+app.route('/selectdoctor/:id')
+	.put(selectdoctor.updateDoctor)
+
 };
+
+
 
 
 
