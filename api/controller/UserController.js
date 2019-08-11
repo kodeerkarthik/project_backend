@@ -145,7 +145,7 @@ exports.userSignin = (req,res,next) =>{
       {
         email: loadedUser.email,
         userId:loadedUser._id.toString()
-      },'secret',{expiresIn:'10s'})
+      },'secret')
       return res.status(200).json({token: token, userId: loadedUser._id.toString(), email: loadedUser.email})
       // res.json({
         // success: true,
@@ -251,6 +251,7 @@ exports.getSelectDoctor = function(req,res){
   })
 }
 exports.deleteDoctor = (req,res)=>{ 
+  console.log(req.params.id,"hello")
   selectdoctor.remove({_id: req.params.id },(error, data) => {
     if (error) { res.json(error) }
     res.json(data)
