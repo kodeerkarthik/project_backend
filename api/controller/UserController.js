@@ -35,18 +35,24 @@ exports.hospitalDetails=function(req,res){
 
 exports.counting=function(req,res){
   debugger;
-  try {
-    var decoded = jwt.verify(req.headers.authorization, 'secret');
-    timer.find()
-    .then((response) => {
-      return res.status(200).json({count: response})
-    })
-    .catch((error) => {
-      return res.status(404).json({error})
-    })
-  } catch(error){
-    return res.status(401).json({error: "User not authorized"})
-  }
+  timer.find( function(err,data){
+    if (err)
+      res.send(err);
+      res.send(data);
+      console.log(data);
+  })
+  // try {
+  //   var decoded = jwt.verify(req.headers.authorization, 'secret');
+  //   timer.find()
+  //   .then((response) => {
+  //     return res.status(200).json({count: response})
+  //   })
+  //   .catch((error) => {
+  //     return res.status(404).json({error})
+  //   })
+  // } catch(error){
+  //   return res.status(401).json({error: "User not authorized"})
+  // }
   // decoded.email = 
   // var detail= new timer(req.body);    detail.save(function(err, data){   if(err)    res.send(err.message);    res.json(data); })
 
@@ -134,6 +140,7 @@ exports.userSignin = (req,res,next) =>{
   const password = req.body.password;
   let loadedUser;
   UserData.findOne({email: email})
+  
   .then(user =>{
     if(!user){
       const error = new Error('A user with this email could not be found.');
