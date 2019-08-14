@@ -144,6 +144,8 @@ exports.userSignin = (req,res,next) =>{
       throw error;
     
     }
+
+    
     
     // bcrypt.compare(password,user.password)
     // .then(isEqual =>{
@@ -153,6 +155,16 @@ exports.userSignin = (req,res,next) =>{
     //       throw error;
     //     } 
     loadedUser = user;
+    
+    return bcrypt.compare(password,user.password);
+    })
+    .then(isEqual =>{
+    if(!isEqual){
+    const error = new Error('wrong password.');
+    error.statusCode = 401;
+    throw error;
+    }
+
 
     const token = jwt.sign(
       {
