@@ -69,6 +69,10 @@ var selectdoctorSchema =new Schema({
   doctor: {
     type:String
   },
+  date:{
+    type:Date,
+    
+  },
   patient:{
     type:String
   }

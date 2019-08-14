@@ -22,10 +22,7 @@ app.route('/count')
 
 app.route('/appointment')	
 	.post(appoint.getAppointment)
-	.get(appoint.getAppointmentDetails)
-
-app.route('/appointment/:id')
-	.put(appoint.updateAppointment)
+	.get(appoint.getAppointmentDetails)	
 
 app.route('/selectdoctor')	
 	.post(selectdoctor.postSelectDoctor)
@@ -33,6 +30,7 @@ app.route('/selectdoctor')
 
 app.route('/selectdoctor/:id')
 	.delete(selectdoctor.deleteDoctor)
+	.put(selectdoctor.updateAppointment)
 
 // app.route('/selectdoctor/:id')
 // 	.put(selectdoctor.updateDoctor)

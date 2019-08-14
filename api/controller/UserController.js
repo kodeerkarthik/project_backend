@@ -142,7 +142,9 @@ exports.userSignin = (req,res,next) =>{
       const error = new Error('A user with this email could not be found.');
       error.statusCode = 401;
       throw error;
+    
     }
+    
     // bcrypt.compare(password,user.password)
     // .then(isEqual =>{
     //   if(!isEqual){
@@ -208,15 +210,15 @@ exports.getAppointmentDetails = function(req,res){
  }
  
  exports.updateAppointment= function(req,res) {
-   console.log(req.body,"correct")
-   appoint.findById(req.params.id, function(err,data){
+   console.log(req.params.id)
+   selectdoctor.findById(req.params.id, function(err,data){
      if(!data)
       res.status(404).send("data is not found");
       else{
-        data.name=req.body.name;
+        data.department=req.body.department;
         data.date=req.body.date;
-        data.message=req.body.message;
-        data.email=req.body.email;
+        data.patient=req.body.patient;
+        data.doctor=req.body.doctor;
 
         data.save().then(data => {
           res.json(data);
@@ -297,7 +299,7 @@ exports.postSelectDoctor = function(req,res){
   })
 }
 exports.getSelectDoctor = function(req,res){ 
-  console.log('getselectdoctor')
+  
   selectdoctor.find(function(err,data){
     if (err)
       res.send(err);
