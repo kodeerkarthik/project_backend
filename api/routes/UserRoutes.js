@@ -11,7 +11,7 @@ module.exports = function(app) {
 	.get(userData.getAllUsers)
 
  app.route('/signin',isAuth)
-	 .post(userData.userSignin)
+	 .post(userData.userSignin) 
 	 .get(userData.getAllSignin)
  
  app.route('/details')
@@ -22,6 +22,10 @@ app.route('/count')
 
 app.route('/appointment')	
 	.post(appoint.getAppointment)
+	.get(appoint.getAppointmentDetails)
+
+app.route('/appointment/:id')
+	.put(appoint.updateAppointment)
 
 app.route('/selectdoctor')	
 	.post(selectdoctor.postSelectDoctor)
@@ -30,11 +34,11 @@ app.route('/selectdoctor')
 app.route('/selectdoctor/:id')
 	.delete(selectdoctor.deleteDoctor)
 
-app.route('/selectdoctor/:id')
-	.put(selectdoctor.updateDoctor)
+// app.route('/selectdoctor/:id')
+// 	.put(selectdoctor.updateDoctor)
 
+// };
 };
-
 
 
 

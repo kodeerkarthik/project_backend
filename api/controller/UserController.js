@@ -32,7 +32,6 @@ exports.hospitalDetails=function(req,res){
   })
 }
 
-
 exports.counting=function(req,res){
   debugger;
   timer.find( function(err,data){
@@ -54,11 +53,9 @@ exports.counting=function(req,res){
   //   return res.status(401).json({error: "User not authorized"})
   // }
   // decoded.email = 
-  // var detail= new timer(req.body);    detail.save(function(err, data){   if(err)    res.send(err.message);    res.json(data); })
-
-
-  
+  // var detail= new timer(req.body);    detail.save(function(err, data){   if(err)    res.send(err.message);    res.json(data); }) 
 }
+
 
 exports.getUser = function(req, res){
 
@@ -140,14 +137,21 @@ exports.userSignin = (req,res,next) =>{
   const password = req.body.password;
   let loadedUser;
   UserData.findOne({email: email})
-  
   .then(user =>{
     if(!user){
       const error = new Error('A user with this email could not be found.');
       error.statusCode = 401;
       throw error;
     }
+    // bcrypt.compare(password,user.password)
+    // .then(isEqual =>{
+    //   if(!isEqual){
+    //       const error = new Error('wrong password.');
+    //       error.statusCode = 401;
+    //       throw error;
+    //     } 
     loadedUser = user;
+
     const token = jwt.sign(
       {
         email: loadedUser.email,
@@ -161,6 +165,7 @@ exports.userSignin = (req,res,next) =>{
     // })
     // return bcrypt.compare(password,user.password);
   })
+  // })
   // .then(isEqual =>{
     // if(!isEqual){
     //   const error = new Error('wrong password.');
@@ -192,6 +197,49 @@ exports.updateUser = function(req, res) {
       res.json(data);
     })
 }
+
+exports.getAppointmentDetails = function(req,res){
+  console.log("this is appointment")
+   appoint.find(function(err,data){
+     if(err)
+     res.send(err);
+     res.send(data);
+   })
+ }
+ 
+ exports.updateAppointment= function(req,res) {
+   console.log(req.body,"correct")
+   appoint.findById(req.params.id, function(err,data){
+     if(!data)
+      res.status(404).send("data is not found");
+      else{
+        data.name=req.body.name;
+        data.date=req.body.date;
+        data.message=req.body.message;
+        data.email=req.body.email;
+
+        data.save().then(data => {
+          res.json(data);
+        })
+        .catch(err => {
+          res.status(400).send("unable to update the database")
+        })
+      }
+   })
+  //  appoint.findOneAndUpdate({_id: req.body._id}, 
+    //  req.body, {new: true}, function(err, data) {
+    //    if (err)
+    //      res.send(err);
+    //    res.json(data);
+    //  })
+   // console.log(req.params.payload,"payload")
+   // appoint.findByIdAndUpdate(req.params.id,
+   //    {date: req.body.date},
+   //     function (err, data) {
+   //       if (err) return next(err);
+   //       res.send(data);
+   //   });
+ };
 
 exports.getAppointment = function(req,res){ 
 

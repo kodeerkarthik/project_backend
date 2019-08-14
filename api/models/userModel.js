@@ -9,7 +9,7 @@ var UserSchema = new Schema({
   lastname: {
     type: String,
     required: 'Please Enter the lastname'
-  },
+  }, 
   email: {
     type: String,
     required: 'Please Enter valid emailId'
