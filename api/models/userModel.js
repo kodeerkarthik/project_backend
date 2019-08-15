@@ -1,6 +1,5 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-
 var UserSchema = new Schema({
   firstname: {
     type: String,
@@ -60,7 +59,7 @@ var appointmentSchema =new Schema({
     type:String
   }
 })
-module.exports - mongoose.model('appointment',appointmentSchema)
+module.exports = mongoose.model('appointment',appointmentSchema)
 
 var selectdoctorSchema =new Schema({
   department: {
@@ -77,4 +76,4 @@ var selectdoctorSchema =new Schema({
     type:String
   }
 })
-module.exports - mongoose.model('selectdoctor',selectdoctorSchema)
+module.exports = mongoose.model('selectdoctor',selectdoctorSchema)
